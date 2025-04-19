@@ -3,6 +3,7 @@ import time
 import argparse
 from datetime import datetime
 from litellm import completion
+import litellm
 from jinja2 import Environment, PackageLoader, select_autoescape
 from pydantic import BaseModel
 import json
@@ -28,6 +29,9 @@ def get_output_dir(prompt: str) -> str:
     return f"output/{directory_name.directory_name}"
 
 def main(spec_file: str):
+    litellm.drop_params=True
+    # Get today's date in the format "June 5th, 2025"
+    today = datetime.now().strftime("%B %d, %Y")
     with open(spec_file, "r") as f:
         initial_spec = f.read()
 
@@ -39,17 +43,17 @@ def main(spec_file: str):
 
     print("Generating BRD...")
     brd_agent = BRDAgent()
-    brd, cost = brd_agent.run({"spec": initial_spec}, output_dir)
+    brd, cost = brd_agent.run({"spec": initial_spec, "today": today}, output_dir)
     total_cost += cost
 
     print("Generating PRD...")
     prd_agent = PRDAgent()
-    prd, cost = prd_agent.run({"brd": brd}, output_dir)
+    prd, cost = prd_agent.run({"brd": brd, "today": today}, output_dir)
     total_cost += cost
 
     print("Generating User Stories...")
     user_stories_agent = UserStoriesAgent()
-    user_stories, cost = user_stories_agent.run({"prd": prd}, output_dir)
+    user_stories, cost = user_stories_agent.run({"prd": prd, "today": today}, output_dir)
     total_cost += cost
 
     print("Generating Coding Agent Instructions...")

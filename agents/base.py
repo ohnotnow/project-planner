@@ -5,7 +5,7 @@ import time
 
 class BaseAgent():
     name="base_agent"
-    model="openai/o3-mini"
+    model="openai/o4-mini"
     reasoning_effort="low"
 
     def run(self, template_variables: dict, output_dir: str) -> tuple[str, float]:

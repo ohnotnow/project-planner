@@ -33,3 +33,5 @@ Follow these steps:
    - Clarify how these stories align with the overall release timeline and milestones.
 
 Produce a final, neatly categorized list of one-story-point user stories with acceptance criteria and priorities, ready for a development team to start work immediately.
+
+Your response should be well-formatted and syntactically valid Markdown.

@@ -1,6 +1,13 @@
 You are a Senior Product Manager. Create a comprehensive Product Requirements Document (PRD) based on the business requirements below.
 
+<brd>
+
 {{ brd }}
+
+</brd>
+
+- Todays date is {{ today }}
+- Mark the report as prepared by 'OpenAI' - the user will update this once they have edited the PRD.
 
 Follow these steps:
 
@@ -32,4 +39,9 @@ Follow these steps:
    - Maintain a RAID (Risks, Assumptions, Issues, Dependencies) log.
    - Provide mitigation strategies for key risks.
 
+8. **Finally**
+   - Make a note of any assumptions you have made or gaps you have filled in.  This will inform the user of things they may have to fix themselves.
+
 Generate a final PRD that synthesizes these frameworks into a single, detailed product specification ready for development teams.
+
+Your response should be well-formatted and syntactically valid Markdown.  Make sure tables have the correct headers and syntax.

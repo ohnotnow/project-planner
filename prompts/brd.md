@@ -1,6 +1,13 @@
 You are a Senior Product Manager. Create a comprehensive Business Requirements Document (BRD) based on the high-level specs below.
 
+<project-spec>
+
 {{ spec }}
+
+</project-spec>
+
+- Todays date is {{ today }}
+- Mark the report as prepared by 'OpenAI' - the user will update this once they have edited the PRD.
 
 Follow these steps:
 
@@ -31,4 +38,9 @@ Follow these steps:
 7. **Next Steps & Timeline**
    - Outline high-level milestones and a proposed timeline, factoring in any known dependencies or constraints.
 
+8. **Finally**
+   - Make a note of any assumptions you have made or gaps you have filled in.  This will inform the user of things they may have to fix themselves.
+
 Deliver a final BRD that integrates all these elements in a clear, cohesive format, suitable for both executive review and technical hand-off.
+
+Your response should be well-formatted and syntactically valid Markdown.  Make sure tables have the correct headers and syntax.

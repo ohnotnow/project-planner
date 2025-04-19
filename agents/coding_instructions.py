@@ -3,18 +3,30 @@ from pydantic import BaseModel
 from agents.base import BaseAgent
 from typing import List
 from litellm import completion
+from enum import Enum
 
-class CodingInstruction(BaseModel):
-    coding_instruction: str
 
-class CodingInstructions(BaseModel):
+class Priority(Enum):
+    low = "Low"
+    med = "Medium"
+    high = "High"
+
+class CodingStep(BaseModel):
+    step_id: int
+    step_description: str
+    step_instruction: str
+    status: str
+    priority: Priority
+    step_dependancies: List[int]
+
+class Steps(BaseModel):
     title: str
-    coding_instructions: List[CodingInstruction]
+    coding_steps: List[CodingStep]
 
 class Epic(BaseModel):
     epic_name: str
     epic_description: str
-    steps: List[CodingInstructions]
+    steps: List[Steps]
 
 class Epics(BaseModel):
     epics: List[Epic]
@@ -24,9 +36,12 @@ class Epics(BaseModel):
         for epic in self.epics:
             markdown += f"## {epic.epic_name}\n\n{epic.epic_description}\n\n"
             for step in epic.steps:
-                markdown += f"### {step.title}\n\n"
-                for instruction in step.coding_instructions:
-                    markdown += f"- [ ] {instruction.coding_instruction}\n"
+                markdown += f"\n### {step.title}\n\n"
+                for instruction in step.coding_steps:
+                    markdown += f"- [ ] (Task ID: {instruction.step_id}) (Priority: {instruction.priority.value}) {instruction.step_description} \n"
+                    if instruction.step_dependancies:
+                        markdown += f"  - Task Dependencies: {', '.join(str(dep) for dep in instruction.step_dependancies)}\n"
+                    markdown += f"  - {instruction.step_instruction}\n"
         return markdown
 
 class CodingInstructionsAgent(BaseAgent):
@@ -37,7 +52,6 @@ class CodingInstructionsAgent(BaseAgent):
         response = completion(
             model=self.model,
             messages=[
-                {'role': 'developer', 'content': 'Formatting re-enabled'},
                 {'role': 'user', 'content': prompt},
             ],
             reasoning_effort=self.reasoning_effort,
